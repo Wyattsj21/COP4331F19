@@ -64,7 +64,7 @@
 
 
     // select all the columes in the database
-    $sql = "SELECT * FROM user WHERE UserId=?";
+    $sql = "SELECT * FROM Users WHERE UserID=?";
     if($stmt = $mysqli->prepare($sql))
     {
       // bind variables to the prepared statement
@@ -128,7 +128,7 @@
 
     // hash the new password, then update the query
     changePassword:
-    $sql = "UPDATE user SET Password=? WHERE UserId=?";
+    $sql = "UPDATE Users SET Password=? WHERE UserID=?";
     if($stmt = $mysqli->prepare($sql))
     {
       // bind variables to the prepared statement

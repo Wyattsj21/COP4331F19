@@ -20,7 +20,7 @@
     $Password = trim($inData["Password"]);
 
     // select all the columes in the database
-    $sql = "SELECT * FROM user WHERE Username=?";
+    $sql = "SELECT * FROM Users WHERE Username=?";
 
     if($stmt = $mysqli->prepare($sql))
     {

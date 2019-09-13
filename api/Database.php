@@ -1,9 +1,9 @@
 <?php
     // ******change to remote host whenever possible******
-    $host = "localhost";
+    $host = "localhost:3306";
     $adminId = "root";
     $adminPassword = "";
-    $database = "user";
+    $database = "Contact Manager";
 
 
     // try to estable database connection, give error otherwise
