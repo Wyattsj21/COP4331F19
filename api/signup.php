@@ -7,6 +7,7 @@
   $Username ="";
   $Password ="";
   $confirm_pass ="";
+  $name ="";
   $phone ="";
   $email ="";
   $UserId="";
@@ -23,11 +24,12 @@
     $Username = trim($inData["Username"]);
     $Password = trim($inData["Password"]);
     $confirm_pass = trim($inData["confirm_pass"]);
+    $name = trim($inData["name"]);
     $phone = trim($inData["phone"]);
     $email = trim($inData["email"]);
 
     // get info from database to check for dublicate Username
-    $sql = "SELECT * FROM user WHERE Username=?";
+    $sql = "SELECT * FROM Users WHERE Username=?";
 
     if ($stmt = $mysqli->prepare($sql))
     {
@@ -105,7 +107,7 @@
 
 
       // Insert data into table
-      $sql = "INSERT INTO user (Username, Password) VALUES (?,?)";
+      $sql = "INSERT INTO Users (Username, Password) VALUES (?,?)";
 
       // Prepare statement & check for errors
       if ($stmt = $mysqli->prepare($sql))
@@ -139,17 +141,18 @@
 
       insertContacts:
       // insert data into table
-      $sql = "INSERT INTO contacts (UserId, phone, email) VALUES (?,?,?)";
+      $sql = "INSERT INTO Contacts (UserID, Name, Phone Number, Email) VALUES (?,?,?,?)";
 
       // Prepare statement & check for errors
       if ($stmt = $mysqli->prepare($sql))
       {
         // bind variables to parameters to insert
         // Type s for string and i for integer
-        $stmt->bind_param("iss", $idParam, $phoneParam, $emailParam);
+        $stmt->bind_param("iss", $idParam, $nameParam, $phoneParam, $emailParam);
 
         // Give values to parameters
         $idParam = $UserId;
+        $nameParam = $name;
         $phoneParam = $phone;
         $emailParam = $email;
 
