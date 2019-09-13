@@ -27,7 +27,6 @@
       // bind variables to the prepared statement
       // s for type string
       $stmt->bind_param("s", $UsernameParam);
-
       $UsernameParam = $Username;
 
       // try to execute the prepared statement, print error if failed
