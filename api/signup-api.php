@@ -140,6 +140,7 @@
       $stmt->close();
 
       insertContacts:
+      $stmt->close();
       // insert data into table
       $sql = "INSERT INTO Contacts (UserID, Last Name, First Name, Email) VALUES (?,?,?,?)";
 
