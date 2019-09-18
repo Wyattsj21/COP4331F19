@@ -1,8 +1,8 @@
 <?php
     // ******change to remote host whenever possible******
-    $host = "localhost:3306";
-    $adminId = "root";
-    $adminPassword = "";
+    $host = "198.71.231.46:3306";
+    $adminId = "DefaultUser";
+    $adminPassword = "POOSD4331";
     $database = "Contact Manager";
 
 
