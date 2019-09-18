@@ -7,7 +7,7 @@
   $Username ="";
   $Password ="";
   $confirm_pass ="";
-  $firstName
+  $firstName ="";
   $lastName ="";
   $email ="";
   $UserId="";
