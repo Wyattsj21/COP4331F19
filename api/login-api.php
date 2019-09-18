@@ -80,7 +80,7 @@
     else
     {
       $data = array(
-        "Error"=>"Statement Error!"
+        "Error"=>"Statement Error! $stmt->error"
       );
       header('Content-Type: application/json');
       http_response_code(418);
