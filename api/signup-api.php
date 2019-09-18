@@ -7,7 +7,7 @@
   $Username ="";
   $Password ="";
   $confirm_pass ="";
-  $firstName ="";
+  $firstName="";
   $lastName ="";
   $email ="";
   $UserId="";
@@ -23,10 +23,10 @@
   {
     $Username = trim($inData["Username"]);
     $Password = trim($inData["Password"]);
-    $confirm_pass = trim($inData["confirm_pass"]);
+    $confirm_pass = trim($inData["Confirm_pass"]);
     $lastName = trim($inData["Last Name"]);
     $firstName = trim($inData["First Name"]);
-    $email = trim($inData["email"]);
+    $email = trim($inData["Email"]);
 
     // get info from database to check for dublicate Username
     $sql = "SELECT * FROM Users WHERE Username=?";
@@ -66,7 +66,7 @@
         goto end;
       }
     }
-    // close statement to start a new one for email
+    // close statement
     $stmt->close();
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -137,19 +137,19 @@
           goto end;
         }
       }
-      $stmt->close();
+
 
       insertContacts:
       $stmt->close();
       // insert data into table
-      $sql = "INSERT INTO Contacts (UserID, Last Name, First Name, Email) VALUES (?,?,?,?)";
+      $sql = "INSERT INTO Contacts (UserID, LastName, FirstName, Email) VALUES (?,?,?,?)";
 
       // Prepare statement & check for errors
       if ($stmt = $mysqli->prepare($sql))
       {
         // bind variables to parameters to insert
         // Type s for string and i for integer
-        $stmt->bind_param("iss", $idParam, $lastParam, $firstParam, $emailParam);
+        $stmt->bind_param("isss", $idParam, $lastParam, $firstParam, $emailParam);
 
         // Give values to parameters
         $idParam = $UserId;
@@ -160,25 +160,33 @@
         // try to execute the prepared statement, print error if faile
         if ($stmt->execute())
         {
-          // Redirect to login page
           $data = array(
             "Error"=>""
           );
           header('Content-Type: application/json');
           http_response_code(200);
           echo json_encode($data);
-          goto end;
         }
         else
         {
           $data = array(
-            "Error"=>"Failed to insert into user table"
+            "Error"=>"Failed to insert into contacts table"
           );
           header('Content-Type: application/json');
           http_response_code(418);
           echo json_encode($data);
           goto end;
         }
+      }
+      else
+      {
+        $data = array(
+          "Error"=>"Failed to access contacts table $stmt->error & $mysqli->error"
+        );
+        header('Content-Type: application/json');
+        http_response_code(418);
+        echo json_encode($data);
+        goto end;
       }
       $stmt->close();
     }
