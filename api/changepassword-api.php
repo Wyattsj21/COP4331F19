@@ -128,6 +128,7 @@
 
     // hash the new password, then update the query
     changePassword:
+    $stmt->close();
     $sql = "UPDATE Users SET Password=? WHERE UserID=?";
     if($stmt = $mysqli->prepare($sql))
     {
