@@ -23,7 +23,7 @@
     $UserId = trim($inData["UserId"]);
     $oldPassword = trim($inData["OldPassword"]);
     $newPassword = trim($inData["NewPassword"]);
-    $confirm_pass = trim($inData["confirm_pass"]);
+    $confirm_pass = trim($inData["Confirm_pass"]);
 
 
     // validate Password. Password must be between 1-20 characters
@@ -123,8 +123,8 @@
       header('Content-Type: application/json');
       http_response_code(418);
       echo json_encode($data);
+      goto end;
     }
-    $stmt->close();
 
     // hash the new password, then update the query
     changePassword:
@@ -158,6 +158,7 @@
         header('Content-Type: application/json');
         http_response_code(418);
         echo json_encode($data);
+        goto end;
       }
     }
     $stmt->close();
