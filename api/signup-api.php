@@ -9,6 +9,7 @@
   $confirm_pass ="";
   $firstName="";
   $lastName ="";
+  $phone ="";
   $email ="";
   $UserId="";
 
@@ -26,7 +27,45 @@
     $confirm_pass = trim($inData["Confirm_pass"]);
     $lastName = trim($inData["Last Name"]);
     $firstName = trim($inData["First Name"]);
+    $phone = trim($inData["Phone"]);
     $email = trim($inData["Email"]);
+
+    // Check for username length
+    if(strlen($Username)>30)
+    {
+      $data = array(
+        "Error"=>"Username length limit(30) exceeded!"
+      );
+      header('Content-Type: application/json');
+      http_response_code(406);
+      echo json_encode($data);
+      goto end;
+    }
+
+    // Check for lastname length
+    if(strlen($lastName)>30)
+    {
+      $data = array(
+        "Error"=>"Last Name length limit(30) exceeded!"
+      );
+      header('Content-Type: application/json');
+      http_response_code(406);
+      echo json_encode($data);
+      goto end;
+    }
+
+    // Check for Firstname length
+    if(strlen($firstName)>30)
+    {
+      $data = array(
+        "Error"=>"Username length limit(30) exceeded!"
+      );
+      header('Content-Type: application/json');
+      http_response_code(406);
+      echo json_encode($data);
+      goto end;
+    }
+
 
     // get info from database to check for dublicate Username
     $sql = "SELECT * FROM Users WHERE Username=?";
@@ -66,7 +105,7 @@
         goto end;
       }
     }
-    // close statement
+    // close statement to start a new one for email
     $stmt->close();
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -137,35 +176,37 @@
           goto end;
         }
       }
-
+      $stmt->close();
 
       insertContacts:
-      $stmt->close();
       // insert data into table
-      $sql = "INSERT INTO Contacts (UserID, LastName, FirstName, Email) VALUES (?,?,?,?)";
+      $sql = "INSERT INTO Contacts (UserID, LastName, FirstName, Phone, Email) VALUES (?,?,?,?,?)";
 
       // Prepare statement & check for errors
       if ($stmt = $mysqli->prepare($sql))
       {
         // bind variables to parameters to insert
         // Type s for string and i for integer
-        $stmt->bind_param("isss", $idParam, $lastParam, $firstParam, $emailParam);
+        $stmt->bind_param("issis", $idParam, $lastParam, $firstParam, $phoneParam, $emailParam);
 
         // Give values to parameters
         $idParam = $UserId;
         $lastParam = $lastName;
         $firstParam = $firstName;
+        $phoneParam = $phone;
         $emailParam = $email;
 
         // try to execute the prepared statement, print error if faile
         if ($stmt->execute())
         {
+          // Redirect to login page
           $data = array(
             "Error"=>""
           );
           header('Content-Type: application/json');
           http_response_code(200);
           echo json_encode($data);
+          goto end;
         }
         else
         {
@@ -181,7 +222,7 @@
       else
       {
         $data = array(
-          "Error"=>"Failed to access contacts table $stmt->error & $mysqli->error"
+          "Error"=>"Failed to prepare contacts query"
         );
         header('Content-Type: application/json');
         http_response_code(418);
