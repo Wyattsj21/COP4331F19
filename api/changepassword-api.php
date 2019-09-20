@@ -123,12 +123,11 @@
       header('Content-Type: application/json');
       http_response_code(418);
       echo json_encode($data);
-      goto end;
     }
+    $stmt->close();
 
     // hash the new password, then update the query
     changePassword:
-    $stmt->close();
     $sql = "UPDATE Users SET Password=? WHERE UserID=?";
     if($stmt = $mysqli->prepare($sql))
     {
@@ -158,7 +157,6 @@
         header('Content-Type: application/json');
         http_response_code(418);
         echo json_encode($data);
-        goto end;
       }
     }
     $stmt->close();
