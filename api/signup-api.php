@@ -30,6 +30,19 @@
     $phone = trim($inData["Phone"]);
     $email = trim($inData["Email"]);
 
+    // check for empty field
+    if (strlen($Username)<1 || strlen($Password)<1 || strlen($confirm_pass)<1
+      || strlen($lastName)<1 || strlen($firstName)<1 || strlen($email)<1)
+      {
+        $data = array(
+          "Error"=>"At least one of the fields is empty"
+        );
+        header('Content-Type: application/json');
+        http_response_code(406);
+        echo json_encode($data);
+        goto end;
+      }
+      
     // Check for username length
     if(strlen($Username)>30)
     {
