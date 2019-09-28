@@ -21,7 +21,14 @@
         $NlastName = trim($inData["Last Name"]);
         $Nemail = trim($inData["Email"]);
         $NphoneNumber = trim($inData["Phone"]);
-
+    
+        if (strlen($NfirstName) < 1 && strlen($NlastName) < 1 && strlen($NphonrNumber) < 1 && strlen($Nemail) < 1)
+        {
+            $data = array("Error"=>"Nothing was entered");
+			http_response_code(406);
+			echo json_encode($data);
+			exit();
+        }
 		if (strlen($NfirstName) > 30)
 		{
 			$data = array("Error"=>"First name length limit(30) exceeded.");
@@ -38,7 +45,7 @@
 			exit();
 		}
 
-		if (!filter_var($Nemail, FILTER_VALIDATE_EMAIL))
+		if (strlen($Nemail) > 0 && !filter_var($Nemail, FILTER_VALIDATE_EMAIL))
 		{
 			$data = array(
 				"Error"=>"Invalid email address");
