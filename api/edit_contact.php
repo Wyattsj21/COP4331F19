@@ -22,7 +22,7 @@
         $Nemail = trim($inData["Email"]);
         $NphoneNumber = trim($inData["Phone"]);
     
-        if (strlen($NfirstName) < 1 && strlen($NlastName) < 1 && strlen($NphonrNumber) < 1 && strlen($Nemail) < 1)
+        if (strlen($NfirstName) < 1 && strlen($NlastName) < 1 && strlen($NphoneNumber) < 1 && strlen($Nemail) < 1)
         {
             $data = array("Error"=>"Nothing was entered");
 			http_response_code(406);
