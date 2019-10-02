@@ -12,6 +12,10 @@
 	{
 		return json_decode(file_get_contents('php://input'), true);
 	}
+	function intcmp($a,$b)
+    {
+    return ($a-$b) ? ($a-$b)/abs($a-$b) : 0;
+    }
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{
@@ -115,6 +119,14 @@ $sql = "SELECT * FROM Contacts WHERE UserID = ? AND ContactID = ?";
 				    if (strlen($Nemail) < 1)
 				    {
 				        $Nemail = $dbEmail;
+				    }
+				    
+				    if (strcmp($NlastName, $dbLast) == 0 && strcmp($NfirstName, $dbFirst) == 0 && intcmp($NphoneNumber, $dbPhone) == 0 && strcmp($Nemail, $dbEmail) == 0)
+				    {
+				        $data = array("Error"=>"Nothing was changed.");
+        		        http_response_code(400);
+        		        echo json_encode($data);
+        		        exit();
 				    }
 				}
 			}

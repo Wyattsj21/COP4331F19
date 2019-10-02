@@ -20,6 +20,13 @@
 		$lastName = trim($inData["Last Name"]);
 		$email = trim($inData["Email"]);
 		$phoneNumber = trim($inData["Phone"]);
+		if (strlen($NfirstName) < 1 || strlen($NlastName) < 1 || strlen($NphoneNumber) < 1 || strlen($Nemail) < 1)
+        {
+            $data = array("Error"=>"At least 1 field is empty");
+			http_response_code(406);
+			echo json_encode($data);
+			exit();
+        }
 		if (strlen($firstName) > 30)
 		{
 			$data = array("Error"=>"First name length limit(30) exceeded.");
